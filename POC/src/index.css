@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-neutral-150: #ededed;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #fcfcfc;
+}
+
+/* Custom scrollbar for premium touch */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4d4d4;
+}
+
+/* Print Styles for professional multi-page Proforma Invoice (PI) */
+@media print {
+  /* Hide every single element except the invoice container and its contents */
+  body * {
+    visibility: hidden;
+  }
+  
+  #printable-proforma-invoice,
+  #printable-proforma-invoice * {
+    visibility: visible;
+  }
+  
+  /* Reset positions and margins for the printable area */
+  #printable-proforma-invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  /* Force clean page breaks */
+  .page-break-after-always {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+}
+
+/* Custom Light Theme Scopes for Customer Portal */
+.light-theme {
+  background-color: #f9fafb !important;
+  color: #374151 !important;
+}
+
+/* Background overrides */
+.light-theme .bg-neutral-950 {
+  background-color: #f9fafb !important;
+}
+.light-theme .bg-neutral-900 {
+  background-color: #ffffff !important;
+}
+.light-theme .bg-neutral-900\/50 {
+  background-color: rgba(243, 244, 246, 0.5) !important;
+}
+.light-theme .bg-neutral-900\/80 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+.light-theme .bg-neutral-950\/90 {
+  background-color: rgba(249, 250, 251, 0.9) !important;
+}
+.light-theme .bg-neutral-900\/90 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+.light-theme .bg-neutral-850 {
+  background-color: #f3f4f6 !important;
+}
+.light-theme .bg-neutral-800 {
+  background-color: #f3f4f6 !important;
+}
+.light-theme .bg-black {
+  background-color: #f9fafb !important;
+}
+.light-theme .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Hover background states */
+.light-theme .hover\:bg-neutral-950:hover {
+  background-color: #f3f4f6 !important;
+}
+.light-theme .hover\:bg-neutral-850:hover {
+  background-color: #e5e7eb !important;
+}
+.light-theme .hover\:bg-neutral-900:hover {
+  background-color: #f9fafb !important;
+}
+
+/* Text overrides */
+.light-theme .text-neutral-200 {
+  color: #374151 !important;
+}
+.light-theme .text-neutral-300 {
+  color: #4b5563 !important;
+}
+.light-theme .text-neutral-400 {
+  color: #6b7280 !important;
+}
+.light-theme .text-neutral-500 {
+  color: #8c92a0 !important;
+}
+.light-theme .text-white {
+  color: #111827 !important;
+}
+
+/* Retain white/light text for buttons and badges */
+.light-theme .bg-red-600,
+.light-theme .bg-red-500,
+.light-theme .bg-green-600,
+.light-theme .bg-emerald-600,
+.light-theme .bg-indigo-600,
+.light-theme .bg-indigo-500,
+.light-theme .bg-blue-600,
+.light-theme .bg-rose-600,
+.light-theme .bg-rose-500,
+.light-theme .bg-red-600 *,
+.light-theme .bg-red-500 *,
+.light-theme .bg-green-600 *,
+.light-theme .bg-emerald-600 *,
+.light-theme .bg-indigo-600 *,
+.light-theme .bg-blue-600 *,
+.light-theme .text-white.bg-red-600,
+.light-theme .text-white.bg-green-600,
+.light-theme .text-white.bg-blue-600,
+.light-theme .text-white.bg-indigo-600,
+.light-theme .bg-red-600.text-white,
+.light-theme .bg-red-500.text-white,
+.light-theme .bg-green-600.text-white,
+.light-theme .bg-emerald-600.text-white,
+.light-theme .bg-indigo-600.text-white,
+.light-theme .bg-indigo-500.text-white,
+.light-theme .bg-blue-600.text-white,
+.light-theme .bg-rose-600.text-white,
+.light-theme .bg-rose-500.text-white,
+.light-theme .text-white.bg-neutral-950,
+.light-theme .text-white.bg-neutral-950 * {
+  color: #ffffff !important;
+}
+
+/* Ensure headings have crisp dark color in light theme by default (inheritable/overridable) */
+.light-theme h1,
+.light-theme h2,
+.light-theme h3,
+.light-theme h4,
+.light-theme h5,
+.light-theme h6 {
+  color: #111827;
+}
+
+/* Ensure status labels and specific items keep original text color */
+.light-theme .text-red-500 { color: #dc2626 !important; }
+.light-theme .text-green-500 { color: #16a34a !important; }
+.light-theme .text-emerald-400 { color: #059669 !important; }
+.light-theme .text-indigo-400 { color: #4f46e5 !important; }
+.light-theme .text-blue-400 { color: #2563eb !important; }
+.light-theme .text-rose-400 { color: #e11d48 !important; }
+
+/* Border overrides */
+.light-theme .border-neutral-900 {
+  border-color: #e5e7eb !important;
+}
+.light-theme .border-neutral-800 {
+  border-color: #e5e7eb !important;
+}
+.light-theme .border-neutral-850 {
+  border-color: #e5e7eb !important;
+}
+.light-theme .border-neutral-700 {
+  border-color: #d1d5db !important;
+}
+.light-theme .hover\:border-neutral-700:hover {
+  border-color: #9ca3af !important;
+}
+
+/* Inputs and interactive elements in light theme */
+.light-theme input,
+.light-theme textarea,
+.light-theme select {
+  background-color: #ffffff !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
+}
+.light-theme input::placeholder,
+.light-theme textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+

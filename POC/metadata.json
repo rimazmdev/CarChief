@@ -1,0 +1,6 @@
+{
+  "name": "CarChief",
+  "description": "A premium vehicle sales platform featuring advanced inventory control, role management, lead tracking, and an integrated freight calculator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
