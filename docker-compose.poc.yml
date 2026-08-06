@@ -1,0 +1,43 @@
+name: carchief-poc
+
+services:
+  web:
+    image: carchief-poc-web:local
+    build:
+      context: .
+      dockerfile: docker/poc/Dockerfile
+      target: web
+    ports:
+      - "${CARCHIEF_BIND_ADDRESS:-127.0.0.1}:${CARCHIEF_POC_PORT:-8080}:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/healthz | grep -qx ok"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  poc-ai:
+    profiles: ["ai"]
+    image: carchief-poc-ai:local
+    build:
+      context: .
+      dockerfile: docker/poc/Dockerfile
+      target: ai
+    environment:
+      NODE_ENV: production
+      GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
+    expose:
+      - "3000"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >-
+          fetch('http://127.0.0.1:3000/api/search',{method:'POST',headers:{'content-type':'application/json'},body:'{}'}).then(r=>process.exit(r.status===400?0:1)).catch(()=>process.exit(1))
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
