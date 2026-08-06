@@ -337,7 +337,7 @@ export default function AdminCustomerManagement({ vehicles, currentRole }: Admin
     setEditCustAddress(cust.address || '');
     setEditCustCountry(cust.country || '');
     setEditAssignedTierId(cust.tierId || '');
-    setEditCustStatus(cust.status || 'active');
+    setEditCustStatus((cust.status === 'pending' ? 'active' : cust.status) as any || 'active');
     setEditCustPassword(cust.password || 'outdesk123@');
 
     setEditBroker(cust.broker || 'No');

@@ -1,0 +1,48 @@
+services:
+  # CarChief Web Application (Express + Vite Frontend)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: carchief_app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - APP_URL=${APP_URL:-http://localhost:3000}
+      - VITE_SUPABASE_URL=${VITE_SUPABASE_URL:-https://qzqdwydbivrvfqgoceqe.supabase.co}
+      - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY:-sb_publishable_1yHz2Wv7_djW3hbnR-MMdw_RifJ38vn}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:Mn!carchief2026@db.qzqdwydbivrvfqgoceqe.supabase.co:5432/postgres}
+      - VITE_FIREBASE_API_KEY=${VITE_FIREBASE_API_KEY}
+      - VITE_FIREBASE_AUTH_DOMAIN=${VITE_FIREBASE_AUTH_DOMAIN}
+      - VITE_FIREBASE_PROJECT_ID=${VITE_FIREBASE_PROJECT_ID}
+      - VITE_FIREBASE_STORAGE_BUCKET=${VITE_FIREBASE_STORAGE_BUCKET}
+      - VITE_FIREBASE_MESSAGING_SENDER_ID=${VITE_FIREBASE_MESSAGING_SENDER_ID}
+      - VITE_FIREBASE_APP_ID=${VITE_FIREBASE_APP_ID}
+    env_file:
+      - .env
+      - .env.local
+    restart: unless-stopped
+    depends_on:
+      - supabase-db
+
+  # Local Supabase PostgreSQL Database Service
+  supabase-db:
+    image: postgres:15-alpine
+    container_name: carchief_supabase_db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - supabase_db_data:/var/lib/postgresql/data
+      - ./supabase/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    restart: unless-stopped
+
+volumes:
+  supabase_db_data:

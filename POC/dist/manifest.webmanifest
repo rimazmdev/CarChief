@@ -1,0 +1,29 @@
+{
+  "short_name": "CarChief",
+  "name": "CarChief Automotive Curator",
+  "description": "Premium global vehicle curators and ocean cargo logistics brokers",
+  "icons": [
+    {
+      "src": "/input_file_0.png",
+      "type": "image/png",
+      "sizes": "100x100"
+    },
+    {
+      "src": "/input_file_0.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/input_file_0.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0a0a0a",
+  "theme_color": "#dc2626",
+  "display": "standalone",
+  "orientation": "portrait"
+}

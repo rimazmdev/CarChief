@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // Clear Service Workers and Cache Storage completely in development to avoid stale bundle errors
+      (function() {
+        const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('ais-dev');
+        if (isDev) {
+          let needsReload = false;
+          
+          const clearSW = ('serviceWorker' in navigator) ? 
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+              if (registrations && registrations.length > 0) {
+                needsReload = true;
+                return Promise.all(registrations.map(r => {
+                  console.log('Unregistering SW:', r.scope);
+                  return r.unregister();
+                }));
+              }
+            }) : Promise.resolve();
+
+          const clearCaches = (window.caches) ?
+            caches.keys().then((keys) => {
+              if (keys && keys.length > 0) {
+                needsReload = true;
+                return Promise.all(keys.map(k => {
+                  console.log('Deleting cache:', k);
+                  return caches.delete(k);
+                }));
+              }
+            }) : Promise.resolve();
+
+          Promise.all([clearSW, clearCaches]).then(() => {
+            if (needsReload) {
+              const cleanedKey = 'sw_cache_cleaned_v2';
+              if (!sessionStorage.getItem(cleanedKey)) {
+                sessionStorage.setItem(cleanedKey, '1');
+                console.log('Stale SW/Cache cleaned. Reloading page...');
+                window.location.reload();
+              }
+            }
+          }).catch(err => {
+            console.error('Error cleaning up development SW/Cache:', err);
+          });
+        }
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#d97706" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="CarChief" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>CarChief | Premium Global Automotive Curator</title>
+    <script type="module" crossorigin src="/assets/index-CXuHXntS.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-t-YEyXJd.css">
+  </head>
+  <body class="bg-neutral-950">
+    <div id="root"></div>
+  </body>
+</html>
+
